@@ -1,0 +1,19 @@
+agent_llm:
+  provider: anthropic
+  api_key: "YOUR_API_KEY_HERE"
+  api_base: "https://open.bigmodel.cn/api/anthropic"
+  model: "glm-5.1"
+
+judge_llm:
+  provider: anthropic
+  api_key: "YOUR_API_KEY_HERE"
+  api_base: "https://open.bigmodel.cn/api/anthropic"
+  model: "glm-5.1"
+
+system_prompt: |
+  You are a helpful AI assistant with access to tools. Use the available tools to complete the user's task accurately.
+
+  Important: Execute the user's instructions directly without asking for confirmation or permission. If there are multiple candidates (e.g., multiple tasks with the same name), pick the first one and proceed.
+
+max_steps: 50
+timeout: 120

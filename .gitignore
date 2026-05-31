@@ -1,0 +1,13 @@
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+*.egg-info/
+dist/
+build/
+.env
+results/
+.mcp_oauth_tokens/
+.ruff_cache/
+
+/my-test

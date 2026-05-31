@@ -1,0 +1,26 @@
+{
+    "mcpServers": {
+        "example-server": {
+            "description": "Example MCP Server (stdio)",
+            "type": "stdio",
+            "command": "uv",
+            "args": [
+                "run",
+                "--directory",
+                "/path/to/your/mcp-server",
+                "your-mcp-server"
+            ]
+        },
+        "time": {
+            "description": "Time MCP Server - timezone queries and conversion",
+            "type": "stdio",
+            "command": "uv",
+            "args": [
+                "run",
+                "--directory",
+                "/path/to/servers/src/time",
+                "mcp-server-time"
+            ]
+        }
+    }
+}

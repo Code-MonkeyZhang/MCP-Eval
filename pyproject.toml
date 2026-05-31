@@ -1,0 +1,32 @@
+[project]
+name = "mcp-eval"
+version = "0.1.0"
+description = "MCP Server evaluation framework"
+readme = "README.md"
+authors = [
+    { name = "Jonathan Zhang" }
+]
+requires-python = ">=3.11"
+dependencies = [
+    "pydantic>=2.0.0",
+    "pyyaml>=6.0.0",
+    "httpx>=0.27.0",
+    "mcp>=1.0.0",
+    "tiktoken>=0.5.0",
+    "anthropic>=0.39.0",
+    "openai>=1.57.4",
+    "requests>=2.31.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
+    "pytest-asyncio>=0.21.0",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["mcp_eval"]

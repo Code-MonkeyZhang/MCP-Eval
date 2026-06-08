@@ -1,0 +1,37 @@
+[
+  {
+    "unique_id": 1,
+    "Prompt": "List all files and directories in the workspace root",
+    "Answer": "Returned a listing of files and directories in the workspace root"
+  },
+  {
+    "unique_id": 2,
+    "Prompt": "Read the contents of README.md",
+    "Answer": "Returned the full contents of the README.md file"
+  },
+  {
+    "unique_id": 3,
+    "Prompt": "Create a new file called notes.txt with the content 'Hello World'",
+    "Answer": "Created notes.txt with the specified content"
+  },
+  {
+    "unique_id": 4,
+    "Prompt": "Search for all Python files in the workspace",
+    "Answer": "Returned a list of .py files found in the workspace"
+  },
+  {
+    "unique_id": 5,
+    "Prompt": "Read the contents of src/main.py and summarize what it does",
+    "Answer": "Read the file and provided a summary of its functionality"
+  },
+  {
+    "unique_id": 6,
+    "Prompt": "Move notes.txt to the archive directory",
+    "Answer": "Moved notes.txt to the archive directory"
+  },
+  {
+    "unique_id": 7,
+    "Prompt": "Delete the file notes.txt from the archive directory",
+    "Answer": "Deleted notes.txt from the archive directory"
+  }
+]

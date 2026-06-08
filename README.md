@@ -1,14 +1,28 @@
 # mcp-eval
-
 [![Python 3.11+](https://img.shields.io/badge/python-3.11+-blue.svg)](https://www.python.org/downloads/) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-An evaluation framework for benchmarking [MCP Servers](https://modelcontextprotocol.io/) with LLM Agents. Given a test dataset, mcp-eval runs each question through an Agent backed by MCP tools, judges the answers with an LLM, and produces a structured evaluation report.
+An evaluation framework for [MCP Servers](https://modelcontextprotocol.io/). Given a test prompt set, this tool runs each prompt through a ReAct agent to evaluate your MCP's performance.
 
----
+**🎯 Use cases:**
 
-## Quick Start
+- Evaluate the tool-calling accuracy of your MCP Server
+- Compare how different LLMs perform on the same MCP Server
+- Regression test your MCP Server after updates or changes
+- Benchmark multiple MCP Servers against the same test prompts
 
-### 1. Clone & Install
+## How It Works
+
+For each test question:
+
+1. **Agent Execution** — An Agent is launched with your MCP Server's tools. The question is passed as a user prompt, and the Agent is free to call any available tools to complete the task.
+2. **LLM-as-Judge** — A separate Judge LLM Agent compares the Agent's answer against the reference answer. Scoring is binary (pass/fail) — the reference is descriptive, allowing semantic flexibility.
+3. **Report Generation** — Results are aggregated into structured JSON files under `results/`.
+
+The Evaluation will generate a report for token usage, latency, agent loop consumption, and full tool call logs.
+
+## 🚀 Quick Start
+
+### Clone & Install
 
 ```bash
 git clone https://github.com/Code-MonkeyZhang/mcp-eval.git
@@ -16,7 +30,7 @@ cd mcp-eval
 uv sync
 ```
 
-### 2. Prepare a Dataset
+### Prepare a Dataset
 
 Create a JSON file with test questions containing `unique_id`, `Prompt`, and `Answer` (a descriptive reference, not an exact match):
 
@@ -35,7 +49,7 @@ Create a JSON file with test questions containing `unique_id`, `Prompt`, and `An
 ]
 ```
 
-### 3. Create an Eval Config
+### Create an Eval Config
 
 ```yaml
 # eval.yaml
@@ -53,12 +67,11 @@ judge_llm:
 
 system_prompt: |
   You are a helpful AI assistant with access to tools. Use the available tools to complete the user's task accurately.
-
 max_steps: 50
 timeout: 120
 ```
 
-### 4. Configure MCP Server
+### Configure MCP Server
 
 ```json
 {
@@ -77,7 +90,10 @@ If your MCP Server requires OAuth:
 python -m mcp_eval login --mcp mcp.json [--server <name>]
 ```
 
-### 5. Run Evaluation
+> [!NOTE]
+> The `login` command will open a browser for OAuth authentication. After completing the login, the credentials will be saved locally for subsequent evaluation runs.
+
+### Run Evaluation
 
 ```bash
 python -m mcp_eval eval \
@@ -86,33 +102,13 @@ python -m mcp_eval eval \
   --dataset datasets/test.json
 ```
 
-## How It Works
-
-For each test question:
-
-1. **Agent Execution** — An Agent is launched with the MCP Server's tools. The question is passed as a user prompt, and the Agent is free to call any available tools to complete the task.
-2. **LLM-as-Judge** — A separate Judge LLM compares the Agent's answer against the reference answer. Scoring is binary (pass/fail) — the reference is descriptive, allowing semantic flexibility.
-3. **Timeout Handling** — Questions exceeding the configured timeout are marked as failed without aborting the entire run.
-4. **Report Generation** — Results are aggregated into structured JSON files under `results/`.
-
-**Per-question metrics:**
-
-| Metric | Description |
-| :-- | :-- |
-| **Pass/Fail** | Binary judgment from the Judge LLM |
-| **Token Usage** | Input & output token counts |
-| **Latency** | Wall-clock execution time per question |
-| **Steps** | Number of agent steps taken |
-| **Tool Description Length** | Total characters injected by the MCP Server (impacts prompt size) |
-| **Tool Calls** | Full log of tool names, arguments, and results |
-
-## Output
+## 📋 Output
 
 Results are saved to `results/<servers>_<timestamp>/`:
 
-| File | Description |
-| :-- | :-- |
-| `summary.json` | Aggregate metrics: pass rate, token usage, latency, models used |
+| File           | Description                                                                            |
+| -------------- | -------------------------------------------------------------------------------------- |
+| `summary.json` | Aggregate metrics: pass rate, token usage, latency, models used                        |
 | `details.json` | Per-question breakdown: agent answer, judge decision, tool calls, full message history |
 
 Example `summary.json`:
@@ -131,9 +127,9 @@ Example `summary.json`:
 }
 ```
 
-## Project Structure
+## 📁 Project Structure
 
-```text
+```
 mcp-eval/
 ├── mcp_eval/
 │   ├── evaluator.py         # Evaluation runner & report generation

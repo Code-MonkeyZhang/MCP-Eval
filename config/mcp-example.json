@@ -1,25 +1,13 @@
 {
     "mcpServers": {
-        "example-server": {
-            "description": "Example MCP Server (stdio)",
+        "filesystem": {
+            "description": "Filesystem MCP Server - file & directory operations",
             "type": "stdio",
-            "command": "uv",
+            "command": "npx",
             "args": [
-                "run",
-                "--directory",
-                "/path/to/your/mcp-server",
-                "your-mcp-server"
-            ]
-        },
-        "time": {
-            "description": "Time MCP Server - timezone queries and conversion",
-            "type": "stdio",
-            "command": "uv",
-            "args": [
-                "run",
-                "--directory",
-                "/path/to/servers/src/time",
-                "mcp-server-time"
+                "-y",
+                "@modelcontextprotocol/server-filesystem",
+                "/path/to/allowed/directory"
             ]
         }
     }
